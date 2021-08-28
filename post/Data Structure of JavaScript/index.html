@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>数据结构（JavaScript） | Gridea</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://wanghhhaoo.github.io/favicon.ico?v=1630159509765">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://wanghhhaoo.github.io/styles/main.css">
+
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://wanghhhaoo.github.io">Gridea</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>数据结构（JavaScript）</h1>
+            <p class="article-meta">
+              2020-03-30
+              
+                <a href="https://wanghhhaoo.github.io/tag/WUmxiT4LH/" class="badge secondary">
+                  数据结构与算法
+                </a>
+              
+            </p>
+            
+            <div class="post-content">
+              <h1 id="stack">Stack</h1>
+<pre><code class="language-javascript">function Stack() {
+	// 栈中的属性
+	let items = [];
+
+	// 栈相关的方法
+
+    // 压栈操作
+    Stack.prototype.push = function (element) {
+        items.push(element);
+    }
+
+    // 出栈操作
+	Stack.prototype.pop = function () {
+        return items.pop();
+    }
+
+    // peek操作
+    Stack.prototype.peek = function () {
+        return items[items.length - 1];
+    }
+
+    // 判断栈中的元素是否为空
+    Stack.prototype.isEmpty = function () {
+        return items.length == 0;
+    }
+
+    // 获取栈中元素的个数
+    Stack.prototype.size = function () {
+        return items.length;
+    }
+
+    // toString方法（将栈中数据打印出来）
+    Stack.prototype.toString = function (){
+    	let resultString = &quot; &quot;;
+    	for(let i = 0; i &lt; items.length; i++){
+    		resultString += items[i] + &quot; &quot;;
+    	}
+    	return resultString;
+    }
+}
+</code></pre>
+<h2 id="栈的运用">栈的运用</h2>
+<pre><code class="language-javascript">function toBin(num) {
+    // 创建一个栈
+	var s = new Stack();
+    // 定义一个余数
+	var remainder;
+	while(num &gt; 0){
+		remainder = num % 2;
+        
+        // 令要num / 2之后得到一个整型的值
+		num = Math.floor(num / 2);
+		s.push(remainder);
+	}
+    // 取出二进制数
+	var binNum = &quot;&quot;;
+	while(!s.isEmpty()){
+		binNum += s.pop();
+	}
+	return binNum;
+}
+</code></pre>
+<h1 id="linkedlist">LinkedList</h1>
+<pre><code class="language-javascript">    function LinkedList() {
+        // 用于保存每个节点的信息
+        function Node(element) {
+            this.element = element; // 节点的数据域
+            this.next = null; // 节点的指针域
+        }
+        // 链表的属性
+        this.length = 0; // 链表的长度
+        this.head = null; // 链表的头节点
+
+        // 链表中的方法
+
+        // 向链表尾添加元素
+        LinkedList.prototype.append = function(element) {
+            // 1.创建一个新的元素节点
+            let newNode = new Node(element);
+            // 2.判断链表是否为空
+            if (this.head === null) // 链表为空
+                this.head = newNode;
+            else { // 链表不为空
+                let current = this.head;
+                while (current.next) // 从头节点开始遍历链表
+                    current = current.next;
+                // 让链表的最后一个元素的next指向新节点
+                current.next = newNode;
+            }
+            // 3.链表长度加一
+            this.length++;
+        }
+
+        // 向链表任意位置插入元素
+        LinkedList.prototype.insert = function(position, element) {
+            // 判断是否越界，越界则插入失败
+            if (position &lt; 0 || position &gt; this.length)
+                return false;
+
+            // 新建一个节点
+            let newNode = new Node(element);
+
+            let current = this.head;
+            let previous = null;
+            let index = 0;
+
+            // 判断插入位置是否是第一个位置
+            if (position == 0) {
+
+                /*
+                	这里我想了半天，为什么让newNode.next直接指向current，而不是current.next。因为前面定义current时，让current = this.head，所以我以为current是表示头节点，也就是头指针，而非第一个元素。所以我以为current.next才是第一个元素
+
+                	然后我就回去看了一下append()函数的定义，才发现this.head的值本身就是第一个元素，而非第一个元素的指针，因为JS里面是没有指针的
+                	也就是说，此时，current，this.head的值都是第一个元素的值，所以此时current.next的值为null
+                */
+                newNode.next = current;
+                this.head = newNode;
+            } else {
+                while (index++ &lt; position) {
+                    previous = current;
+                    current = current.next;
+                }
+
+                // 这里插入顺序是不能改变的，否则会找不到后面的元素
+                newNode.next = current;
+                previous.next = newNode;
+            }
+
+            // 链表长度加一
+            this.length++;
+            return true;
+
+        }
+
+        // 链表的删除操作
+        LinkedList.prototype.removeAt = function(position) {
+            // 判断是否越界，越界则删除失败
+            if (position &lt; 0 || position &gt; this.length)
+                return false;
+
+            let current = this.head;
+            let previous = null;
+            let index = 0;
+
+            // 判断删除的节点是否为第一个节点
+            if (position == 0)
+                this.head = current.next;
+            else {
+                while (index++ &lt; position) {
+                    previous = current;
+                    current = current.next;
+                }
+                previous.next = current.next;
+            }
+
+            // 链表长度减一
+            this.length--;
+
+            //返回被删除的元素值
+            return current.element;
+
+        }
+
+        // 链表的查找操作
+        LinkedList.prototype.search = function(element) {
+            let current = this.head;
+            let index = 0;
+
+            // 查找元素位置，并返回索引值
+            while (current) {
+                if (current.element === element)
+                    return index;
+                index++;
+                current = current.next;
+            }
+
+            // 若查找失败，则返回-1
+            return -1;
+        }
+
+        // 通过查找操作，可以通过元素值来进行删除操作
+        LinkedList.prototype.removeNd = function(element) {
+            let index = this.search(element);
+            return this.removeAt(index);
+        }
+
+        // 获取第一个元素的值
+        LinkedList.prototype.getHead = function() {
+            return this.head.element;
+        }
+
+        // 判断链表是否为空
+        LinkedLint.prototype.isEmpty = function() {
+            return this.length == 0;
+        }
+        
+        // 链表的toString方法
+        LinkedList.prototype.toString = function() {
+            let current = this.head;
+            let listString = &quot;&quot;;
+
+            // 遍历链表
+            while (current) {
+                listString += &quot;, &quot; + current.element;
+                current = current.next;
+            }
+            // 返回listString的值
+            return listString.slice(2);
+        }
+    }
+</code></pre>
+<h1 id="queue">Queue</h1>
+<pre><code class="language-javascript">    function Queue() {
+        var items = [];
+
+        //队列的操作方法
+
+        //进队列
+        Queue.prototype.enQueue = function(element) {
+            items.push(element);
+        }
+
+        //出队列
+        Queue.prototype.deQueue = function() {
+            return items.shift();
+        }
+
+        //查看队首元素
+        Queue.prototype.front = function() {
+            return items[0];
+        }
+
+        //判断队列是否为空
+        Queue.prototype.isEmpty = function() {
+            return items.length == 0;
+        }
+
+        //查看队列中的元素个数
+        Queue.prototype.size = function() {
+            return items.length;
+        }
+    }
+
+
+    // 封装优先级队列
+    function PriorityQueue() {
+        var items = []
+
+        // 封装一个新的构造函数, 用于保存元素和元素的优先级
+        function QueueElement(element, priority) {
+            this.element = element
+            this.priority = priority
+        }
+
+        // 添加元素的方法
+        this.enQueue = function(element, priority) {
+            // 1.根据传入的元素, 创建新的QueueElement
+            var queueElement = new QueueElement(element, priority)
+
+            // 2.获取传入元素应该在正确的位置
+            if (this.isEmpty()) {
+                items.push(queueElement)
+            } else {
+                var added = false
+                for (var i = 0; i &lt; items.length; i++) {
+                    // 注意: 我们这里是数字越小, 优先级越高
+                    if (queueElement.priority &lt; items[i].priority) {
+                        items.splice(i, 0, queueElement)
+                        added = true
+                        break
+                    }
+                }
+
+                // 遍历完所有的元素, 优先级都大于新插入的元素时, 就插入到最后
+                if (!added) {
+                    items.push(queueElement)
+                }
+            }
+        }
+
+        // 删除元素的方法
+        this.deQueue = function() {
+            return items.shift()
+        }
+
+        // 获取前端的元素
+        this.front = function() {
+            return items[0]
+        }
+
+        // 查看元素是否为空
+        this.isEmpty = function() {
+            return items.length == 0
+        }
+
+        // 获取元素的个数
+        this.size = function() {
+            return items.length
+        }
+    }
+
+
+    function passGame(nameList, num) {
+        var queue = new Queue();
+
+        //将参加游戏的人名加入队列之中
+        for (var i = 0; i &lt; nameList.length; i++) {
+            queue.enQueue(nameList[i]);
+        }
+
+        while (queue.size() &gt; 1) {
+            //每次循环将队首的元素放到队尾（循环队列）
+            for (var i = 0; i &lt; num; i++) {
+                queue.enQueue(queue.deQueue());
+            }
+            //循环结束，删除队首元素，则这个玩家被淘汰
+            queue.deQueue();
+        }
+
+        //当队列中只有一个元素时，退出while循环，输出胜利者姓名
+        var winner = &quot;the winner is &quot;;
+        return winner += queue.deQueue();
+    }
+</code></pre>
+<h1 id="binarysearchtree">BinarySearchTree</h1>
+<pre><code class="language-javascript">    function BinarySearchTree() {
+        // 节点构造函数
+        function Node(key) {
+            this.key = key;
+            this.left = null;
+            this.right = null;
+        }
+        // 保存根的属性
+        this.root = null;
+
+
+        // 插入节点（根节点或非根节点）
+        BinarySearchTree.prototype.Insert = function(key) {
+            let newNode = new Node(key);
+
+            // 判断是否有根节点
+            if (!this.root)
+                this.root = newNode;
+            else
+                this.InsertNode(this.root, newNode);
+        }
+        // 插入非根节点
+        BinarySearchTree.prototype.InsertNode = function(node, newNode) {
+            // 当插入的值要比node的值小时，插入它的左子树
+            if (newNode.key &lt; node.key) {
+                // 判断左子树是否为空，若为空则直接插入，若不为空则在它的左子树上再递归一遍
+                if (!node.left)
+                    node.left = newNode;
+                else
+                    this.InsertNode(node.left, newNode);
+            }
+            // 否则插入它的右子树
+            else if (newNode.key &gt; node.key) {
+                // 操作同上
+                if (!node.right)
+                    node.right = newNode;
+                else
+                    this.InsertNode(node.right, newNode);
+            }
+        }
+
+        // 先序遍历
+        BinarySearchTree.prototype.PreOrder = function() {
+            this.PreOrderNode(this.root);
+
+        }
+        BinarySearchTree.prototype.PreOrderNode = function(node) {
+            if (node) {
+                console.log(node.key);
+                this.PreOrderNode(node.left);
+                this.PreOrderNode(node.right);
+            }
+        }
+        // 中序遍历
+        BinarySearchTree.prototype.InOrder = function() {
+            this.InOrderNode(this.root);
+
+        }
+        BinarySearchTree.prototype.InOrderNode = function(node) {
+            if (node) {
+                console.log(node.key);
+                this.InOrderNode(node.left);
+                this.InOrderNode(node.right);
+            }
+        }
+        // 后序遍历
+        BinarySearchTree.prototype.PostOrder = function() {
+            this.PostOrderNode(this.root);
+
+        }
+        BinarySearchTree.prototype.PostOrderNode = function(node) {
+            if (node) {
+                console.log(node.key);
+                this.PostOrderNode(node.left);
+                this.PostOrderNode(node.right);
+            }
+        }
+
+        // 查找最小值
+        BinarySearchTree.prototype.Min = function() {
+            let node = this.root;
+            while (node.left) {
+                node = node.left;
+            }
+            return node.key;
+        }
+        // 查找最大值
+        BinarySearchTree.prototype.Max = function() {
+            let node = this.root;
+            while (node.right) {
+                node = node.right;
+            }
+            return node.key;
+        }
+
+        //查找（递归）
+        // BinarySearchTree.prototype.Search = function (key) {
+        // 	return this.SearchNode(this.root, key);
+        // }
+        // BinarySearchTree.prototype.SearchNode = function (node, key) {
+        // 	// 判断树是否为空，为空则返回false
+        // 	if (!node)
+        // 		return false;
+        // 	else {
+        // 		// 寻找的值比当前节点的值小，则查看它的左子树
+        // 		if (node.key &gt; key)
+        // 			return this.SearchNode(node.left, key);
+        // 		// 寻找的值比当前节点的值大，查看右子树
+        // 		else if (node.key &lt; key)
+        // 			return this.SearchNode(node.right, key);
+        // 		else
+        // 			return true;
+        // 	}
+        // }
+
+        // 查找（循环）
+        BinarySearchTree.prototype.Search = function(key) {
+            let node = this.root;
+            while (node) {
+                if (node.key &gt; key)
+                    node = node.left;
+                else if (node.key &lt; key)
+                    node = node.right;
+                else
+                    return true;
+            }
+            return false;
+        }
+
+        // 删除节点
+        BinarySearchTree.prototype.remove = function(key) {
+            let current = this.root; // 当前访问的节点，也表示要删除的节点
+            let parent = this.root; // 当前节点的双亲节点
+            let isLeftChild = true; // 判断要删除的节点是否为双亲节点的左子树
+
+            // 查找节点
+            while (current.key !== key) {
+                parent = current;
+                if (current.key &gt; key) {
+                    isLeftChild = true;
+                    current = current.left;
+                } else {
+                    isLeftChild = false;
+                    current = current.right;
+                }
+
+                // 若current没有子节点了，说明没有找到要删除的节点
+                if (!current)
+                    return false;
+            }
+
+            // 删除叶子节点
+            if (!current.left &amp;&amp; !current.right) {
+                if (current == this.root)
+                    this.root = null;
+                else if (isLeftChild)
+                    parent.left = null;
+                else
+                    parent.right = null;
+            }
+
+            // 删除一个拥有一个子树的节点
+            // 直接让要删除的节点的子树与双亲节点相连
+            else if (!current.right) {
+                if (current == this.root)
+                    this.root = current.left;
+                else if (isLeftChild)
+                    parent.left = current.left;
+                else
+                    parent.right = current.left;
+            } else if (!current.left) {
+                if (current == this.root)
+                    this.root = current.right;
+                else if (isLeftChild)
+                    parent.left = current.right;
+                else
+                    parent.right = current.right;
+            }
+
+            // 删除拥有两个子树的节点,寻找删除节点的前驱节点或者后继节点
+            else {
+                let successor = this.getSuccessor(current);
+                if (current == this.root)
+                    this.root = successor;
+                else if (isLeftChild)
+                    parent.left = successor;
+                else
+                    parent.right = successor;
+
+                // 将删除的节点的左子树的值赋给successor
+                successor.left = current.left;
+            }
+
+        }
+
+        // 寻找要删除的节点的后继节点
+        BinarySearchTree.prototype.getSuccessor = function(delNode) {
+            // 从要删除的节点开始寻找
+            let successorParent = delNode;
+            let successor = delNode;
+            let current = delNode.right; // 从右子树开始寻找
+            // 寻找后继节点就是寻找右子树中最小的节点
+            while (current) {
+                successorParent = successor;
+                successor = current;
+                current = current.left;
+            }
+
+            // 当要删除的节点的右子树中最小的节点还有右子树的时候
+            if (successor != delNode.right) {
+                successorParent.left = successor.right;
+                successor.right = delNode.right;
+            }
+            return successor;
+        }
+    }
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://wanghhhaoo.github.io/post/JavaScript/">
+                <h3 class="post-title">
+                  JavaScript 笔记
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://wanghhhaoo.github.io/images/avatar.png?v=1630159509765" class="no-responsive avatar">
+    <div class="text-muted">温故而知新</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/Vue.js/">Vue.js 笔记</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/Data Structure of JavaScript/">数据结构（JavaScript）</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/JavaScript/">JavaScript 笔记</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/CSS/">CSS 笔记</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/Thoughts of English Learning/">英语学习心得</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://wanghhhaoo.github.io/post/hello-gridea/">Hello Gridea</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://wanghhhaoo.github.io/tag/WUmxiT4LH/" class="badge ">
+          数据结构与算法
+        </a>
+      
+        <a href="https://wanghhhaoo.github.io/tag/Lx4_eChZBr/" class="badge success">
+          Javascript
+        </a>
+      
+        <a href="https://wanghhhaoo.github.io/tag/hU-mP5h7Ub/" class="badge success">
+          CSS
+        </a>
+      
+        <a href="https://wanghhhaoo.github.io/tag/61AJiERfZY/" class="badge ">
+          English
+        </a>
+      
+        <a href="https://wanghhhaoo.github.io/tag/vrkCnLLGY/" class="badge warning">
+          Gridea
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://wanghhhaoo.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+
+  </body>
+</html>
